@@ -1,0 +1,121 @@
+═══════════════════════════════════════════════════
+GOOGLE DEVELOPER GROUPS (GDG)
+Community Guidelines & Member Handbook
+═══════════════════════════════════════════════════
+
+ABOUT GDG
+
+Google Developer Groups (GDG) are community groups for college and university 
+students interested in Google developer technologies. Students from all 
+undergraduate or graduate programs with an interest in growing as a developer 
+are welcome.
+
+By joining a GDG, students grow their knowledge in a peer-to-peer learning 
+environment and build solutions for local businesses and their community.
+
+───────────────────────────────────────────────────
+MEMBERSHIP
+
+Who Can Join:
+- All students enrolled in undergraduate or graduate programs
+- Alumni within 1 year of graduation
+- Anyone passionate about technology and learning
+
+How to Join:
+1. Visit gdg.community.dev
+2. Find your local GDG chapter
+3. Click "Join this group"
+4. Create or sign in with your Google account
+5. Complete your profile
+6. Start participating in events
+
+Membership Benefits:
+- Free workshops and training sessions
+- Access to Google Cloud credits
+- Networking with industry professionals
+- Certificates for completed programs
+- Career guidance and mentorship
+
+───────────────────────────────────────────────────
+EVENTS & ACTIVITIES
+
+Types of Events:
+
+Workshops
+- Hands-on technical training
+- Duration: 2-4 hours
+- Topics: AI/ML, Cloud, Mobile, Web Development
+- Materials provided
+- Certificates upon completion
+
+Study Jams
+- Self-paced learning with group support
+- Meet weekly for 4-8 weeks
+- Follow Google training programs
+
+Hackathons
+- 24-48 hour coding competitions
+- Team-based problem solving
+- Prizes and recognition
+
+Tech Talks
+- 60-minute presentations
+- Industry speakers
+- Latest technology trends
+
+Event Schedule:
+- Workshops: Every Saturday, 9:00 AM - 12:30 PM
+- Study Jams: Tuesdays & Thursdays, 6:00 PM - 8:00 PM
+- Tech Talks: First Friday of each month, 7:00 PM
+- Hackathons: Quarterly
+- DevFest: Annual, typically in October
+
+Event Requirements:
+- Laptop with charger
+- Required software pre-installed
+- Valid student ID for first-time attendees
+
+Venue Facilities:
+- High-speed WiFi
+- Power outlets at all seats
+- Coffee and refreshments
+
+───────────────────────────────────────────────────
+CODE OF CONDUCT
+
+Our Pledge:
+We are committed to providing a welcoming and inspiring community for all.
+
+Expected Behavior:
+- Be respectful and inclusive
+- Listen actively and speak constructively
+- Welcome newcomers warmly
+- Give credit to others' ideas
+
+Unacceptable Behavior:
+- Harassment of any kind
+- Discriminatory language
+- Personal attacks
+
+Reporting:
+Contact organizers immediately or email conduct@gdg.org
+
+───────────────────────────────────────────────────
+RESOURCES
+
+Learning Platforms:
+- Google Cloud Skills Boost
+- Google Developers
+- Codelabs
+- YouTube Google Developers channel
+
+Tools & Credits:
+- Google Cloud Platform: $300 credits for new users
+- Firebase: Free tier for learning projects
+
+Contact Information:
+General: hello@gdg-yourcity.org
+Events: events@gdg-yourcity.org
+Website: gdg.community.dev
+
+═══════════════════════════════════════════════════

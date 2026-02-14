@@ -1,0 +1,15 @@
+How do I register for the event?|Visit gdg.community.dev and click 'Register' on the event page.
+What is the event schedule?|Events run from 9:00 AM to 5:00 PM with lunch at 12:30 PM.
+Is there a registration fee?|No, all GDG events are completely free to attend!
+What should I bring?|Bring your laptop with Python 3.8+ installed and a charger.
+Can beginners attend?|Absolutely! Our workshops are designed for all skill levels.
+Will there be food?|Yes! We provide coffee, snacks, and lunch.
+How do I become an organizer?|Apply through the GDG organizer program on the website.
+What technologies are covered?|Python, AI, vector databases, RAG systems, and LLM integration.
+Will I get a certificate?|Yes! All participants who complete the workshop receive a certificate.
+Is WiFi available?|Yes, high-speed WiFi is available throughout the venue.
+What is GDG?|GDG stands for Google Developer Groups - community groups for students.
+Can I bring a friend?|Yes, but they must register separately due to limited seating.
+Are materials available after?|Yes! All code and slides will be shared via GitHub.
+What if I miss a day?|Each day builds on the previous, so we recommend attending all three.
+Where is the venue?|The event is at Tech Hub Innovation Center, 123 Innovation Street.
