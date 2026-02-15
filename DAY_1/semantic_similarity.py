@@ -2,8 +2,6 @@
 Day 1 - Exercise 2: Semantic Similarity Calculator
 ===================================================
 
-Welcome to the fascinating world of semantic similarity! 🧠
-
 Imagine this: You know that "king" and "queen" are related, but "king" 
 and "car" are not. How does a computer understand this? The answer: 
 VECTORS and COSINE SIMILARITY!
@@ -235,8 +233,3 @@ This is the foundation of:
 ✓ Chatbots understanding your questions
 ✓ Translation systems matching meanings across languages
     """)
-    
-    print("\n" + "=" * 70)
-    print("✨ Excellent work! You've mastered semantic similarity!")
-    print("Next up: FAQ Finder - Putting it all together!")
-    print("=" * 70 + "\n")

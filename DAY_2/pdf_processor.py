@@ -288,7 +288,3 @@ for result in results:
 Pro tip: Keep your PDFs in a dedicated folder for easy batch processing.
     """)
     
-    print("=" * 70)
-    print("✨ PDF processing mastered!")
-    print("Next up: Knowledge Base - Building a vector database!")
-    print("=" * 70 + "\n")

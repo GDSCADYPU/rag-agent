@@ -1,8 +1,5 @@
 """
 Day 3 - Exercise 3: Streamlit Web Interface
-===========================================
-
-🌟 The Grand Finale - Share Your Creation with the World! 🌟
 
 What is Streamlit?
 Streamlit is a Python library that turns your code into beautiful,
@@ -11,11 +8,11 @@ interactive web apps in minutes - no HTML, CSS, or JavaScript needed!
 Think of it as: "Python scripts → Beautiful web apps"
 
 Why Streamlit for AI apps?
-✅ Dead simple to use
-✅ Perfect for data science and ML demos
-✅ Real-time interactivity
-✅ Free hosting available
-✅ Looks professional out of the box
+Dead simple to use
+Perfect for data science and ML demos
+Real-time interactivity
+Free hosting available
+Looks professional out of the box
 
 What you'll learn:
 ✓ Building web UIs with Streamlit
@@ -113,17 +110,8 @@ def main():
             placeholder="Enter your API key here..."
         )
         
-        # Temperature slider
-        temperature = st.slider(
-            "Response Temperature",
-            min_value=0.0,
-            max_value=1.0,
-            value=0.3,
-            step=0.1,
-            help="Lower = more factual, Higher = more creative. For RAG, keep it low!"
-        )
         
-        st.markdown("**💡 Tip:** For factual Q&A, use temperature ≤ 0.3")
+        
         
         # Initialize button
         if st.button("🚀 Initialize Agent", type="primary", use_container_width=True):
@@ -166,7 +154,6 @@ def main():
                         st.session_state.agent = RAGAgent(
                             gemini_api_key=api_key,
                             knowledge_base=st.session_state.kb,
-                            temperature=temperature
                         )
                         
                         st.success("✅ Agent initialized successfully!")

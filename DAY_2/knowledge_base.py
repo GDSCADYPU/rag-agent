@@ -1,8 +1,6 @@
 """
 Day 2 - Exercise 3: Vector Database Knowledge Base
-==================================================
 
-🎉 This is where the magic happens! 🎉
 
 What is a Vector Database?
 Imagine a library where books aren't organized alphabetically, but by
@@ -16,10 +14,10 @@ How it works:
 4. Find the closest matching vectors = most relevant content!
 
 This is the SECRET behind:
-✅ Google Search understanding your intent
-✅ ChatGPT remembering your documents
-✅ Recommendation systems ("You might also like...")
-✅ Semantic search engines
+Google Search understanding your intent
+ChatGPT remembering your documents
+Recommendation systems ("You might also like...")
+Semantic search engines
 
 What you'll learn:
 ✓ Vector embeddings (converting text to numbers)
@@ -414,27 +412,3 @@ if __name__ == "__main__":
     print("\n" + "=" * 70)
     print("💡 WHAT JUST HAPPENED?")
     print("=" * 70)
-    print("""
-1. We added a document → automatically chunked into pieces
-2. Each chunk → converted to a 384-dimensional vector
-3. Vectors stored in ChromaDB with metadata
-4. When we query → query becomes a vector too
-5. ChromaDB finds vectors most similar to query vector
-6. Returns the most relevant chunks!
-
-This is SEMANTIC SEARCH - understanding meaning, not just keywords! 🎯
-    """)
-    
-    print("\n" + "=" * 70)
-    print("🎉 CONGRATULATIONS! You've built a vector database!")
-    print("=" * 70)
-    print("""
-You now understand:
-✅ Vector embeddings (text → numbers)
-✅ Similarity search at scale
-✅ Document chunking + storage
-✅ Metadata tracking
-✅ The foundation of RAG systems!
-
-Tomorrow (Day 3): We'll connect this to an LLM for intelligent Q&A! 🚀
-    """)

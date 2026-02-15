@@ -1,11 +1,8 @@
 """
 Day 3 - Exercise 2: RAG Agent
-=============================
-
-🎉 THIS IS IT! The moment everything comes together! 🎉
 
 What is RAG (Retrieval-Augmented Generation)?
-==============================================
+
 
 Imagine you're taking an open-book exam:
 1. You read the question (query)
@@ -27,10 +24,10 @@ The RAG Pipeline:
 7. Return answer with sources!
 
 Why RAG is revolutionary:
-✅ Up-to-date information (no training required!)
-✅ Cites sources (no hallucinations!)
-✅ Domain-specific knowledge
-✅ Cost-effective (no need to fine-tune models)
+Up-to-date information (no training required!)
+Cites sources (no hallucinations!)
+Domain-specific knowledge
+Cost-effective (no need to fine-tune models)
 
 What you'll learn:
 ✓ Building a complete RAG pipeline
@@ -439,30 +436,6 @@ if __name__ == "__main__":
         print("=" * 70)
         print("💡 WHAT YOU JUST BUILT:")
         print("=" * 70)
-        print("""
-🎉 CONGRATULATIONS! You've built a production-ready RAG system!
-
-Your system can:
-✅ Store and index documents in a vector database
-✅ Retrieve relevant information using semantic search
-✅ Generate accurate answers using Gemini AI
-✅ Cite sources for transparency
-✅ Handle queries it can't answer honestly
-
-This is the SAME technology used by:
-- ChatGPT with document upload
-- Enterprise AI assistants
-- Customer support chatbots
-- Legal/medical AI systems
-
-From here, you can:
-1. Add more documents (PDFs, websites, etc.)
-2. Build a web interface (Streamlit - next exercise!)
-3. Deploy to production
-4. Scale to millions of documents
-
-You're now an AI Engineer! 🚀
-        """)
         
         # Optional: Interactive mode
         print("=" * 70)

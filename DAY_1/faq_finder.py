@@ -2,7 +2,6 @@
 Day 1 - Exercise 3: Intelligent FAQ Finder
 ==========================================
 
-Welcome to your first AI application! 🎉
 
 The Challenge:
 Users ask questions in different ways:
@@ -335,18 +334,4 @@ if __name__ == "__main__":
 This is a simplified version of how chatbots work! In Day 3, we'll
 upgrade this with real AI embeddings and vector databases for even
 better matching. 🚀
-""")
-    
-    print("=" * 70)
-    print("🎉 CONGRATULATIONS! You've completed Day 1!")
-    print("=" * 70)
-    print("""
-You've built a working AI application from scratch! You now understand:
-✅ How to clean and process text
-✅ How similarity algorithms work  
-✅ How to match user intent to responses
-✅ The foundations of NLP and AI
-
-Tomorrow (Day 2): We'll level up with vector databases and embeddings!
-Get some rest - you've earned it! 😊
 """)

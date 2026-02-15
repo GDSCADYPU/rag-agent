@@ -2,8 +2,6 @@
 Day 2 - Exercise 1: Text Chunking Utility
 =========================================
 
-Welcome to Day 2! Today we're building the foundation for RAG systems! 🚀
-
 The Problem:
 Imagine trying to remember an entire textbook at once. Impossible, right?
 AI models have the same challenge! They have a "context window" - a limit
@@ -367,10 +365,5 @@ if __name__ == "__main__":
    → Track chunk IDs, word counts, sources
    → Essential for debugging and optimization
 
-Tomorrow, we'll use these chunks in a vector database! 🎯
 """)
     
-    print("=" * 70)
-    print("✨ Excellent work! You're ready for vector databases!")
-    print("Next up: PDF Processing - Working with real documents!")
-    print("=" * 70 + "\n")

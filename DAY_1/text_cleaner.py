@@ -2,8 +2,6 @@
 Day 1 - Exercise 1: Text Cleaning Utility
 ==========================================
 
-Welcome to your first step in building an AI agent! 🎉
-
 Think about it: When you read messy text with WEIRD capitalization, 
 lots of    spaces, and special characters!!!, your brain automatically 
 cleans it up to understand the meaning. We're teaching Python to do the same!
