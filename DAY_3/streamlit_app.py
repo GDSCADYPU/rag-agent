@@ -79,7 +79,7 @@ def main():
     # Configure the page
     st.set_page_config(
         page_title="GDG Knowledge Agent",
-        page_icon="🤖",
+        page_icon="https://developers.google.com/profile/badges/community/gdg/GDGoC/organizer",
         layout="wide",  # Use full screen width
         initial_sidebar_state="expanded"
     )
@@ -91,7 +91,7 @@ def main():
     # HEADER
     # =================================================================
     
-    st.title("🤖 GDG Knowledge Agent")
+    st.title("GDG Knowledge Agent")
     st.markdown("*Powered by Retrieval-Augmented Generation (RAG) with Gemini AI*")
     st.markdown("---")
     
