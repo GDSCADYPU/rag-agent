@@ -29,7 +29,7 @@ import re
 
 class TextChunker:
     """
-    An intelligent text chunking system! 📚➡️📄📄📄
+    An intelligent text chunking system!
     
     Think of this as a librarian who takes a huge book and divides it
     into manageable chapters, making sure each chapter makes sense on
@@ -64,7 +64,7 @@ class TextChunker:
         self.chunk_size = chunk_size
         self.overlap = overlap
         
-        print(f"✅ TextChunker initialized!")
+        print(f"   TextChunker initialized!")
         print(f"   Chunk size: {chunk_size} words")
         print(f"   Overlap: {overlap} words")
         print(f"   Strategy: Preserve context with intelligent overlap")
@@ -294,12 +294,12 @@ if __name__ == "__main__":
     implications and ensure AI development benefits humanity as a whole.
     """
     
-    print("📄 Sample text loaded:")
+    print("Sample text loaded:")
     print(f"   Total words: {len(sample_text.split())}")
     print(f"   Total characters: {len(sample_text)}\n")
     
     print("-" * 70)
-    print("🧪 EXPERIMENT 1: Sentence-based chunking (RECOMMENDED)")
+    print("EXPERIMENT 1: Sentence-based chunking (RECOMMENDED)")
     print("-" * 70 + "\n")
     
     # Create chunker with reasonable defaults
@@ -309,13 +309,13 @@ if __name__ == "__main__":
     print(f"Created {len(chunks_sentences)} chunks\n")
     
     for i, chunk in enumerate(chunks_sentences[:3], 1):  # Show first 3
-        print(f"📄 Chunk {chunk['chunk_id']} ({chunk['word_count']} words):")
+        print(f"Chunk {chunk['chunk_id']} ({chunk['word_count']} words):")
         print(f"   {chunk['text'][:150]}...")
         print()
     
     # Show overlap in action
     if len(chunks_sentences) >= 2:
-        print("🔍 OVERLAP VISUALIZATION:")
+        print("OVERLAP VISUALIZATION:")
         print("-" * 70)
         chunk1_end = ' '.join(chunks_sentences[0]['text'].split()[-10:])
         chunk2_start = ' '.join(chunks_sentences[1]['text'].split()[:10])
@@ -325,7 +325,7 @@ if __name__ == "__main__":
     
     # Stats
     stats = chunker.get_chunk_stats(chunks_sentences)
-    print("📊 CHUNKING STATISTICS:")
+    print("CHUNKING STATISTICS:")
     print("-" * 70)
     for key, value in stats.items():
         if isinstance(value, float):
@@ -334,36 +334,13 @@ if __name__ == "__main__":
             print(f"   {key}: {value}")
     
     print("\n" + "-" * 70)
-    print("🧪 EXPERIMENT 2: Word-based chunking (for comparison)")
+    print("EXPERIMENT 2: Word-based chunking (for comparison)")
     print("-" * 70 + "\n")
     
     chunks_words = chunker.chunk_text(sample_text, method='words')
     
     print(f"Created {len(chunks_words)} chunks\n")
-    print(f"📄 Chunk 0 (word-based):")
+    print(f"Chunk 0 (word-based):")
     print(f"   {chunks_words[0]['text'][:150]}...")
-    print("\n⚠️  Notice: Might cut off mid-sentence!")
-    
-    print("\n" + "=" * 70)
-    print("💡 KEY TAKEAWAYS:")
-    print("=" * 70)
-    print("""
-1. Sentence-based chunking > Word-based chunking for RAG
-   → Preserves semantic meaning
-   → Never breaks sentences awkwardly
-
-2. Overlap is crucial!
-   → Prevents context loss at boundaries
-   → 10% overlap is a good starting point
-
-3. Chunk size matters!
-   → Too small = loss of context
-   → Too large = less precise retrieval
-   → 300-500 words is the sweet spot for most cases
-
-4. Always include metadata!
-   → Track chunk IDs, word counts, sources
-   → Essential for debugging and optimization
-
-""")
+    print("\n Notice: Might cut off mid-sentence!")
     

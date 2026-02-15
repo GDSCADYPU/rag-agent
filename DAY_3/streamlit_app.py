@@ -473,7 +473,7 @@ def main():
                                     st.text(source['text'][:200] + "...")
                                     st.markdown("---")
                         else:
-                            st.caption("ℹ️ No sources found in knowledge base")
+                            st.caption("No sources found in knowledge base")
                         
                         # Add assistant message to chat history
                         st.session_state.messages.append({
