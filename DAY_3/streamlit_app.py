@@ -135,10 +135,6 @@ def main():
     st.title("GDG Knowledge Agent")
     st.markdown("*Powered by Retrieval-Augmented Generation (RAG) with Gemini AI*")
     
-    # Show auto-initialization message
-    if st.session_state.auto_initialized and st.session_state.agent:
-        st.success("✅ Agent automatically initialized using environment API key!")
-    
     st.markdown("---")
     
     # =================================================================
@@ -416,13 +412,12 @@ def main():
         env_api_key = os.getenv('GEMINI_API_KEY')
         
         if env_api_key:
-            # If env key exists but agent not initialized, something went wrong
-            st.warning("⚠️ Agent initialization in progress or failed. Please refresh the page.")
+            # If env key exists but agent not initialized, show loading state
+            st.info("🔄 Initializing agent... Please wait or refresh the page.")
         else:
             # No env key, user needs to configure manually
             st.info("👈 Please configure and initialize the agent in the sidebar to begin")
-
-        st.markdown("## Ask Questions about GDG here once the agent is ready!")
+            st.markdown("## Ask Questions about GDG here once the agent is ready!")
         
     else:
         # Chat interface
