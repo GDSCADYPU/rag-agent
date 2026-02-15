@@ -28,6 +28,9 @@ This is how many AI startups build their MVPs!
 import streamlit as st
 import sys
 import os
+import requests
+from pathlib import Path
+from bs4 import BeautifulSoup
 
 # Add project root to sys.path so package imports like DAY_2.knowledge_base work
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -39,12 +42,14 @@ if project_root not in sys.path:
 try:
     from DAY_3.rag_agent import RAGAgent
     from DAY_2.knowledge_base import KnowledgeBase
+    from DAY_2.pdf_processor import PDFProcessor
 except ModuleNotFoundError:
     # Fallback for environments running the file directly where packages aren't resolved
     sys.path.insert(0, os.path.join(project_root, 'DAY_2'))
     sys.path.insert(0, os.path.join(project_root, 'DAY_3'))
     from rag_agent import RAGAgent
     from knowledge_base import KnowledgeBase
+    from pdf_processor import PDFProcessor
 
 
 def init_session_state():
@@ -70,6 +75,9 @@ def init_session_state():
     
     if 'auto_initialized' not in st.session_state:
         st.session_state.auto_initialized = False
+    
+    if 'pdf_processor' not in st.session_state:
+        st.session_state.pdf_processor = PDFProcessor()
 
 
 def main():
@@ -94,35 +102,19 @@ def main():
     env_api_key = os.getenv('GEMINI_API_KEY')
     if env_api_key and not st.session_state.auto_initialized and st.session_state.agent is None:
         try:
-            # Create knowledge base
-            st.session_state.kb = KnowledgeBase("gdg_streamlit_agent")
+            # Create knowledge base with new collection name
+            st.session_state.kb = KnowledgeBase("gdg_knowledge_v2")
             
-            # Add sample data
-            sample_data = """
-            GDG (Google Developer Groups) events are completely free for all students.
-            Registration is done through gdg.community.dev website.
-            
-            Workshop Schedule:
-            - Day 1: Python Basics and NLP (9 AM - 5 PM)
-            - Day 2: Vector Databases (9 AM - 5 PM)
-            - Day 3: RAG Systems with Gemini (9 AM - 5 PM)
-            
-            What to bring:
-            - Laptop with Python 3.8+
-            - Charger
-            - Enthusiasm to learn!
-            
-            Lunch is provided at 12:30 PM each day.
-            Coffee and snacks available throughout.
-            WiFi and power outlets at all seats.
-            
-            Certificates provided upon completion.
-            """
-            
-            st.session_state.kb.add_document(
-                sample_data,
-                metadata={'source': 'GDG Workshop Guide', 'type': 'official'}
-            )
+            # Load GDG guidelines from file
+            guidelines_path = os.path.join(project_root, 'DAY_2', 'data', 'gdg_guidelines.txt')
+            if os.path.exists(guidelines_path):
+                with open(guidelines_path, 'r', encoding='utf-8') as f:
+                    guidelines_data = f.read()
+                
+                st.session_state.kb.add_document(
+                    guidelines_data,
+                    metadata={'source': 'GDG Guidelines', 'type': 'official', 'filename': 'gdg_guidelines.txt'}
+                )
             
             # Initialize RAG agent (will use env variable)
             st.session_state.agent = RAGAgent(
@@ -167,9 +159,27 @@ def main():
             api_key = st.text_input(
                 "Gemini API Key",
                 type="password",
-                help="Get your free key from https://makersuite.google.com/app/apikey",
+                help="Get your free key from https://aistudio.google.com/app/apikey",
                 placeholder="Enter your API key here..."
             )
+            
+            with st.expander("💡 API Key Tips"):
+                st.markdown("""
+                **Getting an API Key:**
+                1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+                2. Sign in with your Google account
+                3. Click "Get API Key" or "Create API Key"
+                4. Copy the key and paste it above
+                
+                **Free Tier Limits:**
+                - 15 requests per minute
+                - 1,500 requests per day
+                - If you hit limits, wait 60 seconds or use a new key
+                
+                **If You Change Keys:**
+                - Click "🔄 Reset Knowledge Base" below
+                - Re-initialize the agent with the new key
+                """)
         
         
         
@@ -181,35 +191,19 @@ def main():
             else:
                 with st.spinner("Initializing RAG Agent... This may take a moment..."):
                     try:
-                        # Create knowledge base
-                        st.session_state.kb = KnowledgeBase("gdg_streamlit_agent")
+                        # Create knowledge base with new collection name
+                        st.session_state.kb = KnowledgeBase("gdg_knowledge_v2")
                         
-                        # Add sample data
-                        sample_data = """
-                        GDG (Google Developer Groups) events are completely free for all students.
-                        Registration is done through gdg.community.dev website.
-                        
-                        Workshop Schedule:
-                        - Day 1: Python Basics and NLP (9 AM - 5 PM)
-                        - Day 2: Vector Databases (9 AM - 5 PM)
-                        - Day 3: RAG Systems with Gemini (9 AM - 5 PM)
-                        
-                        What to bring:
-                        - Laptop with Python 3.8+
-                        - Charger
-                        - Enthusiasm to learn!
-                        
-                        Lunch is provided at 12:30 PM each day.
-                        Coffee and snacks available throughout.
-                        WiFi and power outlets at all seats.
-                        
-                        Certificates provided upon completion.
-                        """
-                        
-                        st.session_state.kb.add_document(
-                            sample_data,
-                            metadata={'source': 'GDG Workshop Guide', 'type': 'official'}
-                        )
+                        # Load GDG guidelines from file
+                        guidelines_path = os.path.join(project_root, 'DAY_2', 'data', 'gdg_guidelines.txt')
+                        if os.path.exists(guidelines_path):
+                            with open(guidelines_path, 'r', encoding='utf-8') as f:
+                                guidelines_data = f.read()
+                            
+                            st.session_state.kb.add_document(
+                                guidelines_data,
+                                metadata={'source': 'GDG Guidelines', 'type': 'official', 'filename': 'gdg_guidelines.txt'}
+                            )
                         
                         # Initialize RAG agent
                         st.session_state.agent = RAGAgent(
@@ -217,7 +211,7 @@ def main():
                             knowledge_base=st.session_state.kb,
                         )
                         
-                        st.success("✅ Agent initialized successfully!")
+                        st.success("✅ Agent initialized successfully with GDG Guidelines!")
                         st.balloons()  # Celebration! 🎉
                         
                     except Exception as e:
@@ -229,10 +223,10 @@ def main():
         st.header("📄 Upload Documents")
         
         uploaded_files = st.file_uploader(
-            "Upload text files to expand knowledge base",
+            "Upload documents to expand knowledge base",
             accept_multiple_files=True,
-            type=['txt', 'md'],
-            help="Upload .txt or .md files containing information you want the agent to learn"
+            type=['txt', 'md', 'pdf'],
+            help="Upload .txt, .md, or .pdf files containing information you want the agent to learn"
         )
         
         if uploaded_files and st.button("Process Documents", use_container_width=True):
@@ -242,19 +236,92 @@ def main():
                 with st.spinner(f"Processing {len(uploaded_files)} files..."):
                     try:
                         for file in uploaded_files:
-                            # Read file content
-                            text = file.read().decode('utf-8')
+                            file_ext = Path(file.name).suffix.lower()
+                            
+                            if file_ext == '.pdf':
+                                # Save temporarily and process PDF
+                                temp_path = os.path.join(project_root, 'temp_upload.pdf')
+                                with open(temp_path, 'wb') as f:
+                                    f.write(file.read())
+                                
+                                # Extract text from PDF
+                                text = st.session_state.pdf_processor.extract_text_from_pdf(temp_path)
+                                
+                                # Clean up temp file
+                                os.remove(temp_path)
+                            else:
+                                # Read text file content
+                                text = file.read().decode('utf-8')
                             
                             # Add to knowledge base
                             st.session_state.kb.add_document(
                                 text,
-                                metadata={'source': file.name, 'type': 'user-uploaded'}
+                                metadata={'source': file.name, 'type': 'user-uploaded', 'file_type': file_ext}
                             )
                         
                         st.success(f"✅ Processed {len(uploaded_files)} documents successfully!")
                     
                     except Exception as e:
                         st.error(f"❌ Error processing files: {str(e)}")
+        
+        st.markdown("---")
+        
+        # Web scraping section
+        st.header("🌐 Fetch Live Data")
+        
+        gdg_url = st.text_input(
+            "GDG Chapter URL",
+            placeholder="https://gdg.community.dev/your-chapter/",
+            help="Enter a GDG chapter page URL to fetch latest events and information"
+        )
+        
+        if st.button("Fetch Latest Events", use_container_width=True):
+            if st.session_state.kb is None:
+                st.error("⚠️ Please initialize the agent first!")
+            elif not gdg_url:
+                st.warning("⚠️ Please enter a GDG chapter URL!")
+            else:
+                with st.spinner(f"Fetching data from {gdg_url}..."):
+                    try:
+                        # Fetch webpage content
+                        headers = {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                        }
+                        response = requests.get(gdg_url, headers=headers, timeout=10)
+                        response.raise_for_status()
+                        
+                        # Parse with BeautifulSoup
+                        soup = BeautifulSoup(response.text, 'html.parser')
+                        
+                        # Extract text content
+                        # Remove script and style elements
+                        for script in soup(["script", "style"]):
+                            script.decompose()
+                        
+                        # Get text
+                        text = soup.get_text()
+                        
+                        # Clean up whitespace
+                        lines = (line.strip() for line in text.splitlines())
+                        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+                        text = '\n'.join(chunk for chunk in chunks if chunk)
+                        
+                        # Add to knowledge base
+                        st.session_state.kb.add_document(
+                            text,
+                            metadata={
+                                'source': gdg_url,
+                                'type': 'web-scraped',
+                                'fetched_at': str(os.popen('echo %date% %time%').read().strip())
+                            }
+                        )
+                        
+                        st.success(f"✅ Successfully fetched and processed data from GDG page!")
+                    
+                    except requests.exceptions.RequestException as e:
+                        st.error(f"❌ Error fetching webpage: {str(e)}")
+                    except Exception as e:
+                        st.error(f"❌ Error processing webpage: {str(e)}")
         
         st.markdown("---")
         
@@ -272,6 +339,15 @@ def main():
                 st.metric("Embedding Dim", stats['embedding_dimension'])
             
             st.caption(f"Model: {stats['embedding_model']}")
+            
+            # Reset button
+            if st.button("🔄 Reset Knowledge Base", use_container_width=True, type="secondary"):
+                st.session_state.agent = None
+                st.session_state.kb = None
+                st.session_state.messages = []
+                st.session_state.auto_initialized = False
+                st.success("✅ Knowledge base reset! Click 'Initialize Agent' to start fresh.")
+                st.rerun()
         
         st.markdown("---")
         
@@ -279,19 +355,28 @@ def main():
         with st.expander("ℹ️ How to Use"):
             st.markdown("""
             **Getting Started:**
-            1. Enter your Gemini API key
-            2. Click "Initialize Agent"
+            1. Enter your Gemini API key (or set GEMINI_API_KEY environment variable)
+            2. Click "Initialize Agent" (or it auto-initializes with env variable)
             3. Start asking questions!
+            
+            **Knowledge Sources:**
+            - **Built-in:** GDG Guidelines automatically loaded
+            - **Upload PDFs:** Add your own PDF documents
+            - **Upload Text:** Add .txt or .md files
+            - **Live Data:** Fetch latest info from GDG chapter pages
             
             **Tips:**
             - Be specific in your questions
             - Upload relevant documents for better answers
             - Check sources to verify information
+            - Use web scraping to get latest event info
             
             **Example Questions:**
-            - How do I register?
-            - What's the schedule?
-            - Is there a fee?
+            - How do I register for GDG events?
+            - What's the event schedule?
+            - Is there a fee for workshops?
+            - What are the code of conduct guidelines?
+            - When is the next DevFest?
             """)
     
     # =================================================================
@@ -378,31 +463,63 @@ def main():
             # Generate and display assistant response
             with st.chat_message("assistant"):
                 with st.spinner("🤔 Thinking..."):
-                    # Get RAG response
-                    result = st.session_state.agent.answer(prompt, verbose=False)
-                    
-                    # Display answer
-                    st.markdown(result['answer'])
-                    
-                    # Display sources
-                    if result['sources']:
-                        with st.expander(f"📚 View {len(result['sources'])} Sources"):
-                            for i, source in enumerate(result['sources'], 1):
-                                similarity = source.get('similarity', 0) * 100
-                                
-                                st.markdown(f"**Source {i}:** {source['metadata'].get('source', 'Unknown')}")
-                                st.caption(f"Relevance: {similarity:.1f}%")
-                                st.text(source['text'][:200] + "...")
-                                st.markdown("---")
-                    else:
-                        st.caption("ℹ️ No sources found in knowledge base")
-            
-            # Add assistant message to chat history
-            st.session_state.messages.append({
-                "role": "assistant",
-                "content": result['answer'],
-                "sources": result['sources']
-            })
+                    try:
+                        # Get RAG response
+                        result = st.session_state.agent.answer(prompt, verbose=False)
+                        
+                        # Display answer
+                        st.markdown(result['answer'])
+                        
+                        # Display sources
+                        if result['sources']:
+                            with st.expander(f"📚 View {len(result['sources'])} Sources"):
+                                for i, source in enumerate(result['sources'], 1):
+                                    similarity = source.get('similarity', 0) * 100
+                                    
+                                    st.markdown(f"**Source {i}:** {source['metadata'].get('source', 'Unknown')}")
+                                    st.caption(f"Relevance: {similarity:.1f}%")
+                                    st.text(source['text'][:200] + "...")
+                                    st.markdown("---")
+                        else:
+                            st.caption("ℹ️ No sources found in knowledge base")
+                        
+                        # Add assistant message to chat history
+                        st.session_state.messages.append({
+                            "role": "assistant",
+                            "content": result['answer'],
+                            "sources": result['sources']
+                        })
+                        
+                    except Exception as e:
+                        error_message = str(e)
+                        
+                        # Check if it's a quota error
+                        if "429" in error_message or "RESOURCE_EXHAUSTED" in error_message or "quota" in error_message.lower():
+                            st.error("""
+                            ⚠️ **API Quota Exceeded**
+                            
+                            You've hit the Gemini API free tier limit (15-20 requests per minute).
+                            
+                            **Solutions:**
+                            1. **Wait 60 seconds** and try again
+                            2. **Use a different API key** (get one at https://aistudio.google.com/app/apikey)
+                            3. **Upgrade your API plan** for higher quotas
+                            4. **Restart the app** after changing API key
+                            
+                            To restart with a new key:
+                            - Click "🔄 Reset Knowledge Base" in the sidebar
+                            - Enter your new API key
+                            - Click "Initialize Agent"
+                            """)
+                        else:
+                            st.error(f"❌ Error: {error_message}")
+                        
+                        # Add error to chat history
+                        st.session_state.messages.append({
+                            "role": "assistant",
+                            "content": "Sorry, I encountered an error. Please try again or check the error message above.",
+                            "sources": []
+                        })
         
         # Clear chat button
         if st.session_state.messages:

@@ -92,6 +92,7 @@ class RAGAgent:
         # Initialize Gemini with RAG-optimized settings
         self.llm = GeminiWrapper(
             api_key=gemini_api_key,
+            model_name="gemini-2.5-flash",
             temperature=temperature
         )
         

@@ -42,7 +42,7 @@ class GeminiWrapper:
 
         Args:
             api_key: Gemini API key. If None, reads from GEMINI_API_KEY env variable
-            model_name: Gemini model to use ('gemini-1.5-flash' or 'gemini-1.5-pro')
+            model_name: Gemini model to use (default: 'gemini-2.5-flash')
             temperature: Response randomness (0.0=deterministic, 1.0=creative)
             verbose: Whether to print initialization messages
 
