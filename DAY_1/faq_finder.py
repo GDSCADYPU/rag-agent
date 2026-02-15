@@ -25,12 +25,8 @@ import importlib
 from typing import List, Dict
 
 # Import our previous utilities
-# Note: Python modules can't start with numbers, so we use importlib
-text_cleaner = importlib.import_module('1_text_cleaner')
-semantic_similarity = importlib.import_module('2_semantic_similarity')
-
-TextCleaner = text_cleaner.TextCleaner
-SemanticSimilarity = semantic_similarity.SemanticSimilarity
+from text_cleaner import TextCleaner
+from semantic_similarity import SemanticSimilarity
 
 
 class FAQFinder:
@@ -84,7 +80,7 @@ class FAQFinder:
             'location': ['where', 'venue', 'place']
         }
         
-        print("✅ FAQ Finder initialized with smart matching!")
+        print("[OK] FAQ Finder initialized with smart matching!")
     
     def add_faq(self, question: str, answer: str):
         """
@@ -215,7 +211,7 @@ class FAQFinder:
         # Step 5: Return result (if confident enough)
         if best_score < threshold:
             return {
-                'answer': "🤔 I couldn't find a good answer to that question. Could you rephrase it?",
+                'answer': "I couldn't find a good answer to that question. Could you rephrase it?",
                 'confidence': best_score,
                 'matched_question': None
             }
@@ -240,7 +236,7 @@ if __name__ == "__main__":
     finder = FAQFinder()
     
     # Sample GDG event FAQs
-    print("📚 Loading GDG Event FAQs...\n")
+    print("[DATA] Loading GDG Event FAQs...\n")
     
     gdg_faqs = [
         {
@@ -249,7 +245,7 @@ if __name__ == "__main__":
         },
         {
             'question': "What is the event schedule?",
-            'answer': "The workshop runs from 9:00 AM to 5:00 PM with lunch break at 12:30 PM."
+            'answer': "The workshop runs from 2:00 PM to 5:00 PM with lunch break in between."
         },
         {
             'question': "Where is the venue located?",
@@ -257,7 +253,7 @@ if __name__ == "__main__":
         },
         {
             'question': "Is there a registration fee?",
-            'answer': "No, all GDG events are completely free to attend! 🎉"
+            'answer': "No, all GDG events are completely free to attend!"
         },
         {
             'question': "What should I bring to the workshop?",
@@ -280,10 +276,10 @@ if __name__ == "__main__":
     for faq in gdg_faqs:
         finder.add_faq(faq['question'], faq['answer'])
     
-    print(f"✅ Loaded {len(gdg_faqs)} FAQs into the system\n")
+    print(f"[OK] Loaded {len(gdg_faqs)} FAQs into the system\n")
     
     print("-" * 70)
-    print("🧪 TEST: Let's try different ways of asking the same questions!")
+    print("[TEST] Let's try different ways of asking the same questions!")
     print("-" * 70 + "\n")
     
     # Test queries - notice how they use different wording!
@@ -300,13 +296,13 @@ if __name__ == "__main__":
         
         print(f"User asks: \"{query}\"")
         print(f"  Matched: {result['matched_question']}")
-        print(f"  Confidence: {result['confidence']:.0%} {'🎯' if result['confidence'] > 0.5 else '✓'}")
+        print(f"  Confidence: {result['confidence']:.0%} {'[*]' if result['confidence'] > 0.5 else '[OK]'}")
         print(f"  Answer: {result['answer']}")
         print(f"  Hint: {hint}")
         print()
     
     print("-" * 70)
-    print("🧪 TEST: What happens with unrelated questions?")
+    print("[TEST] What happens with unrelated questions?")
     print("-" * 70 + "\n")
     
     unrelated = [
@@ -320,18 +316,3 @@ if __name__ == "__main__":
         print(f"  Confidence: {result['confidence']:.0%}")
         print(f"  Answer: {result['answer']}")
         print()
-    
-    print("=" * 70)
-    print("💡 KEY CONCEPTS YOU JUST LEARNED:")
-    print("=" * 70)
-    print("""
-1. Text Preprocessing: Cleaning and normalizing text
-2. Stop Words: Removing common words that don't add meaning
-3. Synonyms: Understanding different words can mean the same thing
-4. Similarity Matching: Finding the closest match using word overlap
-5. Confidence Scores: Knowing when we're sure vs. unsure
-
-This is a simplified version of how chatbots work! In Day 3, we'll
-upgrade this with real AI embeddings and vector databases for even
-better matching. 🚀
-""")

@@ -32,10 +32,10 @@ class TextCleaner:
         """
         Initialize our cleaner with Python's built-in punctuation list.
         
-        Fun fact: string.punctuation contains: !"#$%&()*+,-./:;<=>?@[\]^_`{|}~
+        Fun fact: string.punctuation contains: !"#$%&()*+,-./:;<=>?@[\\]^_`{|}~
         """
         self.punctuation = string.punctuation
-        print("✅ TextCleaner ready! Let's clean some text!")
+        print("TextCleaner ready!")
     
     def clean_text(self, text):
         """
@@ -123,7 +123,7 @@ if __name__ == "__main__":
         "Email: support@gdg.dev",
         "Price: $99.99 (AMAZING Deal!!!)",
         "Python     is     AWESOME!!!",
-        "Check out: https://gdg.community.dev 🚀"
+        "Check out: https://gdg.community.dev"
     ]
     
     print("Let's clean some messy text:\n")
