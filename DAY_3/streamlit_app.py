@@ -352,7 +352,7 @@ def main():
         st.markdown("---")
         
         # Help section
-        with st.expander("ℹ️ How to Use"):
+        with st.expander("How to Use"):
             st.markdown("""
             **Getting Started:**
             1. Enter your Gemini API key (or set GEMINI_API_KEY environment variable)
