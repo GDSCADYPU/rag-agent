@@ -67,6 +67,9 @@ def init_session_state():
     
     if 'kb' not in st.session_state:
         st.session_state.kb = None
+    
+    if 'auto_initialized' not in st.session_state:
+        st.session_state.auto_initialized = False
 
 
 def main():
@@ -79,7 +82,7 @@ def main():
     # Configure the page
     st.set_page_config(
         page_title="GDG Knowledge Agent",
-        page_icon="https://res.cloudinary.com/startup-grind/image/upload/dpr_2.0,fl_sanitize/v1/gcs/platform-data-goog/contentbuilder/GDG-Lockup-1Line-Black_vMWBFT9.svg",
+        page_icon="https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2.0,f_auto,g_center,h_1200,q_100,w_1200/v1/gcs/platform-data-goog/contentbuilder/GDG_Bevy_SocialSharingThumbnail_KFxxrrs.png",
         layout="wide",  # Use full screen width
         initial_sidebar_state="expanded"
     )
@@ -87,12 +90,63 @@ def main():
     # Initialize session state
     init_session_state()
     
+    # Auto-initialize if API key is in environment and not already initialized
+    env_api_key = os.getenv('GEMINI_API_KEY')
+    if env_api_key and not st.session_state.auto_initialized and st.session_state.agent is None:
+        try:
+            # Create knowledge base
+            st.session_state.kb = KnowledgeBase("gdg_streamlit_agent")
+            
+            # Add sample data
+            sample_data = """
+            GDG (Google Developer Groups) events are completely free for all students.
+            Registration is done through gdg.community.dev website.
+            
+            Workshop Schedule:
+            - Day 1: Python Basics and NLP (9 AM - 5 PM)
+            - Day 2: Vector Databases (9 AM - 5 PM)
+            - Day 3: RAG Systems with Gemini (9 AM - 5 PM)
+            
+            What to bring:
+            - Laptop with Python 3.8+
+            - Charger
+            - Enthusiasm to learn!
+            
+            Lunch is provided at 12:30 PM each day.
+            Coffee and snacks available throughout.
+            WiFi and power outlets at all seats.
+            
+            Certificates provided upon completion.
+            """
+            
+            st.session_state.kb.add_document(
+                sample_data,
+                metadata={'source': 'GDG Workshop Guide', 'type': 'official'}
+            )
+            
+            # Initialize RAG agent (will use env variable)
+            st.session_state.agent = RAGAgent(
+                gemini_api_key=env_api_key,
+                knowledge_base=st.session_state.kb,
+            )
+            
+            st.session_state.auto_initialized = True
+            
+        except Exception as e:
+            # Silently fail on auto-init, user can try manually
+            pass
+    
     # =================================================================
     # HEADER
     # =================================================================
     
     st.title("GDG Knowledge Agent")
     st.markdown("*Powered by Retrieval-Augmented Generation (RAG) with Gemini AI*")
+    
+    # Show auto-initialization message
+    if st.session_state.auto_initialized and st.session_state.agent:
+        st.success("✅ Agent automatically initialized using environment API key!")
+    
     st.markdown("---")
     
     # =================================================================
@@ -102,13 +156,20 @@ def main():
     with st.sidebar:
         st.header("⚙️ Configuration")
         
-        # API Key input
-        api_key = st.text_input(
-            "Gemini API Key",
-            type="password",
-            help="Get your free key from https://makersuite.google.com/app/apikey",
-            placeholder="Enter your API key here..."
-        )
+        # Check for API key in environment
+        env_api_key = os.getenv('GEMINI_API_KEY')
+        
+        # API Key input (only show if not in environment)
+        if env_api_key:
+            st.success("✅ Using API key from environment")
+            api_key = env_api_key
+        else:
+            api_key = st.text_input(
+                "Gemini API Key",
+                type="password",
+                help="Get your free key from https://makersuite.google.com/app/apikey",
+                placeholder="Enter your API key here..."
+            )
         
         
         
@@ -116,7 +177,7 @@ def main():
         # Initialize button
         if st.button("🚀 Initialize Agent", type="primary", use_container_width=True):
             if not api_key:
-                st.error("⚠️ Please provide your Gemini API key!")
+                st.error("⚠️ Please provide your Gemini API key or set GEMINI_API_KEY environment variable!")
             else:
                 with st.spinner("Initializing RAG Agent... This may take a moment..."):
                     try:
