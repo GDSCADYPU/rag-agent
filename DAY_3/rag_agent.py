@@ -51,7 +51,7 @@ from typing import List, Dict
 
 class RAGAgent:
     """
-    Your intelligent RAG-powered assistant! 🧠🔍🤖
+    Your intelligent RAG-powered assistant! 
     
     This combines:
     - Vector Database (Knowledge Base)
