@@ -146,16 +146,14 @@ def main():
     # =================================================================
     
     with st.sidebar:
-        st.header("⚙️ Configuration")
-        
         # Check for API key in environment
         env_api_key = os.getenv('GEMINI_API_KEY')
         
-        # API Key input (only show if not in environment)
-        if env_api_key:
-            st.success("✅ Using API key from environment")
-            api_key = env_api_key
-        else:
+        # Only show Configuration section if NO environment API key
+        if not env_api_key:
+            st.header("⚙️ Configuration")
+            
+            # API Key input
             api_key = st.text_input(
                 "Gemini API Key",
                 type="password",
@@ -180,44 +178,41 @@ def main():
                 - Click "🔄 Reset Knowledge Base" below
                 - Re-initialize the agent with the new key
                 """)
-        
-        
-        
-        
-        # Initialize button
-        if st.button("🚀 Initialize Agent", type="primary", use_container_width=True):
-            if not api_key:
-                st.error("⚠️ Please provide your Gemini API key or set GEMINI_API_KEY environment variable!")
-            else:
-                with st.spinner("Initializing RAG Agent... This may take a moment..."):
-                    try:
-                        # Create knowledge base with new collection name
-                        st.session_state.kb = KnowledgeBase("gdg_knowledge_v2")
-                        
-                        # Load GDG guidelines from file
-                        guidelines_path = os.path.join(project_root, 'DAY_2', 'data', 'gdg_guidelines.txt')
-                        if os.path.exists(guidelines_path):
-                            with open(guidelines_path, 'r', encoding='utf-8') as f:
-                                guidelines_data = f.read()
+            
+            # Initialize button
+            if st.button("🚀 Initialize Agent", type="primary", use_container_width=True):
+                if not api_key:
+                    st.error("⚠️ Please provide your Gemini API key or set GEMINI_API_KEY environment variable!")
+                else:
+                    with st.spinner("Initializing RAG Agent... This may take a moment..."):
+                        try:
+                            # Create knowledge base with new collection name
+                            st.session_state.kb = KnowledgeBase("gdg_knowledge_v2")
                             
-                            st.session_state.kb.add_document(
-                                guidelines_data,
-                                metadata={'source': 'GDG Guidelines', 'type': 'official', 'filename': 'gdg_guidelines.txt'}
+                            # Load GDG guidelines from file
+                            guidelines_path = os.path.join(project_root, 'DAY_2', 'data', 'gdg_guidelines.txt')
+                            if os.path.exists(guidelines_path):
+                                with open(guidelines_path, 'r', encoding='utf-8') as f:
+                                    guidelines_data = f.read()
+                                
+                                st.session_state.kb.add_document(
+                                    guidelines_data,
+                                    metadata={'source': 'GDG Guidelines', 'type': 'official', 'filename': 'gdg_guidelines.txt'}
+                                )
+                            
+                            # Initialize RAG agent
+                            st.session_state.agent = RAGAgent(
+                                gemini_api_key=api_key,
+                                knowledge_base=st.session_state.kb,
                             )
-                        
-                        # Initialize RAG agent
-                        st.session_state.agent = RAGAgent(
-                            gemini_api_key=api_key,
-                            knowledge_base=st.session_state.kb,
-                        )
-                        
-                        st.success("✅ Agent initialized successfully with GDG Guidelines!")
-                        st.balloons()  # Celebration! 🎉
-                        
-                    except Exception as e:
-                        st.error(f"❌ Error: {str(e)}")
-        
-        st.markdown("---")
+                            
+                            st.success("✅ Agent initialized successfully with GDG Guidelines!")
+                            st.balloons()  # Celebration! 🎉
+                            
+                        except Exception as e:
+                            st.error(f"❌ Error: {str(e)}")
+            
+            st.markdown("---")
         
         # Document upload section
         st.header("📄 Upload Documents")
@@ -346,38 +341,71 @@ def main():
                 st.session_state.kb = None
                 st.session_state.messages = []
                 st.session_state.auto_initialized = False
-                st.success("✅ Knowledge base reset! Click 'Initialize Agent' to start fresh.")
+                env_api_key = os.getenv('GEMINI_API_KEY')
+                if env_api_key:
+                    st.success("✅ Knowledge base reset! Refresh the page to reinitialize.")
+                else:
+                    st.success("✅ Knowledge base reset! Click 'Initialize Agent' to start fresh.")
                 st.rerun()
         
         st.markdown("---")
         
         # Help section
         with st.expander("How to Use"):
-            st.markdown("""
-            **Getting Started:**
-            1. Enter your Gemini API key (or set GEMINI_API_KEY environment variable)
-            2. Click "Initialize Agent" (or it auto-initializes with env variable)
-            3. Start asking questions!
+            env_api_key = os.getenv('GEMINI_API_KEY')
             
-            **Knowledge Sources:**
-            - **Built-in:** GDG Guidelines automatically loaded
-            - **Upload PDFs:** Add your own PDF documents
-            - **Upload Text:** Add .txt or .md files
-            - **Live Data:** Fetch latest info from GDG chapter pages
-            
-            **Tips:**
-            - Be specific in your questions
-            - Upload relevant documents for better answers
-            - Check sources to verify information
-            - Use web scraping to get latest event info
-            
-            **Example Questions:**
-            - How do I register for GDG events?
-            - What's the event schedule?
-            - Is there a fee for workshops?
-            - What are the code of conduct guidelines?
-            - When is the next DevFest?
-            """)
+            if env_api_key:
+                # Simplified help for auto-initialized apps
+                st.markdown("""
+                **Getting Started:**
+                ✅ Agent is ready! Just start asking questions below.
+                
+                **Knowledge Sources:**
+                - **Built-in:** GDG Guidelines automatically loaded
+                - **Upload PDFs:** Add your own PDF documents
+                - **Upload Text:** Add .txt or .md files
+                - **Live Data:** Fetch latest info from GDG chapter pages
+                
+                **Tips:**
+                - Be specific in your questions
+                - Upload relevant documents for better answers
+                - Check sources to verify information
+                - Use web scraping to get latest event info
+                
+                **Example Questions:**
+                - How do I register for GDG events?
+                - What's the event schedule?
+                - Is there a fee for workshops?
+                - What are the code of conduct guidelines?
+                - When is the next DevFest?
+                """)
+            else:
+                # Full help with setup instructions
+                st.markdown("""
+                **Getting Started:**
+                1. Enter your Gemini API key above
+                2. Click "Initialize Agent"
+                3. Start asking questions!
+                
+                **Knowledge Sources:**
+                - **Built-in:** GDG Guidelines automatically loaded
+                - **Upload PDFs:** Add your own PDF documents
+                - **Upload Text:** Add .txt or .md files
+                - **Live Data:** Fetch latest info from GDG chapter pages
+                
+                **Tips:**
+                - Be specific in your questions
+                - Upload relevant documents for better answers
+                - Check sources to verify information
+                - Use web scraping to get latest event info
+                
+                **Example Questions:**
+                - How do I register for GDG events?
+                - What's the event schedule?
+                - Is there a fee for workshops?
+                - What are the code of conduct guidelines?
+                - When is the next DevFest?
+                """)
     
     # =================================================================
     # MAIN AREA - Chat Interface
@@ -385,47 +413,16 @@ def main():
     
     if st.session_state.agent is None:
         # Show welcome screen before initialization
-        st.info("👈 Please configure and initialize the agent in the sidebar to begin")
+        env_api_key = os.getenv('GEMINI_API_KEY')
+        
+        if env_api_key:
+            # If env key exists but agent not initialized, something went wrong
+            st.warning("⚠️ Agent initialization in progress or failed. Please refresh the page.")
+        else:
+            # No env key, user needs to configure manually
+            st.info("👈 Please configure and initialize the agent in the sidebar to begin")
 
         st.markdown("## Ask Questions about GDG here once the agent is ready!")
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.markdown("""
-            ### 🔍 Retrieval
-            Search your knowledge base for relevant information
-            """)
-
-        with col2:
-            st.markdown("""
-            ### 🔗 Augmented
-            Combine retrieved info with AI
-            """)
-
-        with col3:
-            st.markdown("""
-            ### 💬 Generation
-            Create accurate, sourced answers
-            """)
-        
-        st.markdown("---")
-        
-        st.markdown("""
-        ### ✨ Benefits of RAG
-        
-        - **✅ Up-to-date:** No need to retrain models
-        - **✅ Accurate:** Cites real sources
-        - **✅ Transparent:** Shows where info comes from
-        - **✅ Cost-effective:** Works with any LLM
-        
-        ### 🚀 How It Works
-        
-        1. **Upload** your documents
-        2. **Ask** questions naturally
-        3. **Receive** accurate answers with sources
-        4. **Verify** information from citations
-        """)
         
     else:
         # Chat interface
