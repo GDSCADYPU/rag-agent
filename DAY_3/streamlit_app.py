@@ -79,7 +79,7 @@ def main():
     # Configure the page
     st.set_page_config(
         page_title="GDG Knowledge Agent",
-        page_icon="https://developers.google.com/profile/badges/community/gdg/GDGoC/organizer",
+        page_icon="https://res.cloudinary.com/startup-grind/image/upload/dpr_2.0,fl_sanitize/v1/gcs/platform-data-goog/contentbuilder/GDG-Lockup-1Line-Black_vMWBFT9.svg",
         layout="wide",  # Use full screen width
         initial_sidebar_state="expanded"
     )
