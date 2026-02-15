@@ -40,7 +40,7 @@ from pdf_processor import PDFProcessor
 
 class KnowledgeBase:
     """
-    Your intelligent knowledge vault! 🧠💾
+    Your intelligent knowledge vault! 
     
     This class:
     1. Takes your documents
@@ -408,7 +408,3 @@ if __name__ == "__main__":
                 print(f"  Quality: ✅ Good match")
             else:
                 print(f"  Quality: 🤔 Moderate match")
-    
-    print("\n" + "=" * 70)
-    print("💡 WHAT JUST HAPPENED?")
-    print("=" * 70)

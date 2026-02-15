@@ -2,7 +2,7 @@
 Day 2 - Exercise 2: PDF Processing and Text Extraction
 ======================================================
 
-Welcome to real-world document processing! 📄
+Welcome to real-world document processing! 
 
 The Challenge:
 Most valuable information lives in PDFs - research papers, manuals, 
@@ -30,7 +30,7 @@ import sys
 
 class PDFProcessor:
     """
-    A powerful PDF text extraction system! 📄➡️📝
+    A powerful PDF text extraction system! 
     
     Think of this as a super-fast reader who can go through hundreds
     of PDF pages in seconds and extract all the text for processing.
@@ -41,7 +41,7 @@ class PDFProcessor:
     
     def __init__(self):
         """Initialize the PDF processor"""
-        print("✅ PDF Processor initialized and ready!")
+        print("PDF Processor initialized and ready!")
         print("   Supported: Text extraction, metadata, batch processing")
     
     def extract_text_from_pdf(self, pdf_path: str) -> str:
@@ -70,7 +70,7 @@ class PDFProcessor:
                 # Get number of pages
                 num_pages = len(pdf_reader.pages)
                 
-                print(f"📖 Reading '{Path(pdf_path).name}'...")
+                print(f"Reading '{Path(pdf_path).name}'...")
                 print(f"   Pages: {num_pages}")
                 
                 # Extract text from all pages
@@ -84,7 +84,7 @@ class PDFProcessor:
                     if (page_num + 1) % 10 == 0:
                         print(f"   Progress: {page_num + 1}/{num_pages} pages...")
                 
-                print(f"✅ Extracted {len(text)} characters from {pdf_path}")
+                print(f"Extracted {len(text)} characters from {pdf_path}")
                 return text
         
         except FileNotFoundError:
@@ -237,7 +237,7 @@ class PDFProcessor:
 
 
 # ============================================================================
-# DEMO: Let's process some PDFs! 🚀
+# DEMO: Let's process some PDFs! 
 # ============================================================================
 
 if __name__ == "__main__":
@@ -275,16 +275,5 @@ for doc in docs:
 results = processor.search_in_document(doc, 'Python')
 for result in results:
     print(f"Found on page {result['page_number']}")
-    """)
-    
-    print("\n" + "-" * 70)
-    print("🎯 NEXT STEPS:")
-    print("-" * 70)
-    print("""
-1. Try processing your own PDFs!
-2. Combine with chunking_utility to break PDFs into chunks
-3. Tomorrow: Store these chunks in a vector database!
-
-Pro tip: Keep your PDFs in a dedicated folder for easy batch processing.
     """)
     
