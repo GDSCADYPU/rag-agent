@@ -1,9 +1,6 @@
 # Core Dependencies for Building AI Agents Workshop
 # ================================================
 
-# PDF Processing
-PyPDF2>=3.0.0
-
 # Vector Database
 chromadb>=0.4.24
 

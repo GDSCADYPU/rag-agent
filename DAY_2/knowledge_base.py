@@ -35,7 +35,6 @@ sys.path.append('.')
 
 # Import our previous utilities
 from chunking_utility import TextChunker
-from pdf_processor import PDFProcessor
 
 
 class KnowledgeBase:
@@ -87,7 +86,6 @@ class KnowledgeBase:
         
         # Initialize helper utilities
         self.chunker = TextChunker(chunk_size=500, overlap=50)
-        self.pdf_processor = PDFProcessor()
         
         current_count = self.collection.count()
         
@@ -162,78 +160,6 @@ class KnowledgeBase:
         print(f"   Total chunks in KB: {self.collection.count()}\n")
         
         return ids
-    
-    def add_pdf(self, pdf_path: str) -> List[str]:
-        """
-        Add a PDF document to the knowledge base.
-        
-        This combines PDF processing + chunking + embedding!
-        
-        Args:
-            pdf_path (str): Path to PDF file
-            
-        Returns:
-            list: IDs of added chunks
-        """
-        print(f"📕 Adding PDF: {pdf_path}")
-        
-        # Extract text and metadata from PDF
-        doc = self.pdf_processor.extract_with_metadata(pdf_path)
-        
-        if 'error' in doc:
-            print(f"❌ Failed to process PDF: {doc['error']}")
-            return []
-        
-        # Prepare metadata
-        metadata = {
-            'source': doc['filename'],
-            'source_type': 'pdf',
-            'num_pages': doc['num_pages'],
-            'title': doc['metadata'].get('title', 'Unknown')
-        }
-        
-        # Add the full text with metadata
-        return self.add_document(doc['full_text'], metadata)
-    
-    def add_pdf_directory(self, directory_path: str) -> Dict:
-        """
-        Add all PDFs from a directory to knowledge base.
-        
-        Perfect for: "Load all company documentation into the system"
-        
-        Args:
-            directory_path (str): Path to directory with PDFs
-            
-        Returns:
-            dict: Summary statistics
-        """
-        print(f"📁 Processing directory: {directory_path}\n")
-        
-        documents = self.pdf_processor.process_directory(directory_path)
-        
-        total_chunks = 0
-        successful_docs = 0
-        
-        for doc in documents:
-            if 'error' not in doc:
-                chunk_ids = self.add_pdf(doc['path'])
-                total_chunks += len(chunk_ids)
-                successful_docs += 1
-        
-        summary = {
-            'documents_processed': successful_docs,
-            'total_chunks_added': total_chunks,
-            'total_in_kb': self.collection.count()
-        }
-        
-        print("\n" + "=" * 70)
-        print("📊 BATCH PROCESSING SUMMARY")
-        print("=" * 70)
-        for key, value in summary.items():
-            print(f"   {key}: {value}")
-        print()
-        
-        return summary
     
     def query(self, query_text: str, top_k: int = 3) -> List[Dict]:
         """

@@ -42,14 +42,12 @@ if project_root not in sys.path:
 try:
     from DAY_3.rag_agent import RAGAgent
     from DAY_2.knowledge_base import KnowledgeBase
-    from DAY_2.pdf_processor import PDFProcessor
 except ModuleNotFoundError:
     # Fallback for environments running the file directly where packages aren't resolved
     sys.path.insert(0, os.path.join(project_root, 'DAY_2'))
     sys.path.insert(0, os.path.join(project_root, 'DAY_3'))
     from rag_agent import RAGAgent
     from knowledge_base import KnowledgeBase
-    from pdf_processor import PDFProcessor
 
 
 def init_session_state():
@@ -75,9 +73,6 @@ def init_session_state():
     
     if 'auto_initialized' not in st.session_state:
         st.session_state.auto_initialized = False
-    
-    if 'pdf_processor' not in st.session_state:
-        st.session_state.pdf_processor = PDFProcessor()
 
 
 def main():
@@ -216,8 +211,8 @@ def main():
         uploaded_files = st.file_uploader(
             "Upload documents to expand knowledge base",
             accept_multiple_files=True,
-            type=['txt', 'md', 'pdf'],
-            help="Upload .txt, .md, or .pdf files containing information you want the agent to learn"
+            type=['txt', 'md'],
+            help="Upload .txt or .md files containing information you want the agent to learn"
         )
         
         if uploaded_files and st.button("Process Documents", use_container_width=True):
@@ -229,20 +224,8 @@ def main():
                         for file in uploaded_files:
                             file_ext = Path(file.name).suffix.lower()
                             
-                            if file_ext == '.pdf':
-                                # Save temporarily and process PDF
-                                temp_path = os.path.join(project_root, 'temp_upload.pdf')
-                                with open(temp_path, 'wb') as f:
-                                    f.write(file.read())
-                                
-                                # Extract text from PDF
-                                text = st.session_state.pdf_processor.extract_text_from_pdf(temp_path)
-                                
-                                # Clean up temp file
-                                os.remove(temp_path)
-                            else:
-                                # Read text file content
-                                text = file.read().decode('utf-8')
+                            # Read text file content
+                            text = file.read().decode('utf-8')
                             
                             # Add to knowledge base
                             st.session_state.kb.add_document(
