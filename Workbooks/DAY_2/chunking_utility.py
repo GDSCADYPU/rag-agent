@@ -87,7 +87,7 @@ class TextChunker:
         self.overlap = overlap
         
         # TODO: Print initialization information
-        print(f"✨ TextChunker initialized!")
+        print(f" TextChunker initialized!")
         print(f"   Chunk size: {chunk_size} words")
         print(f"   Overlap: {overlap} words")
         print(f"   Strategy: Preserve context with intelligent overlap")
@@ -352,7 +352,7 @@ class TextChunker:
 
 
 # ============================================================================
-# DEMO: Let's see intelligent chunking in action! 🚀
+# DEMO: Let's see intelligent chunking in action! 
 # ============================================================================
 
 if __name__ == "__main__":
@@ -400,7 +400,7 @@ if __name__ == "__main__":
     chunker = TextChunker(chunk_size=50, overlap=10)
     chunks_sentences = chunker.chunk_text(sample_text, method='sentences')
     
-    print(f"✅ Created {len(chunks_sentences)} chunks\n")
+    print(f"Created {len(chunks_sentences)} chunks\n")
     
     for i, chunk in enumerate(chunks_sentences[:3], 1):  # Show first 3
         print(f"Chunk {chunk['chunk_id']} ({chunk['word_count']} words):")
@@ -415,7 +415,7 @@ if __name__ == "__main__":
         chunk2_start = ' '.join(chunks_sentences[1]['text'].split()[:10])
         print(f"End of Chunk 0:   ...{chunk1_end}")
         print(f"Start of Chunk 1: {chunk2_start}...")
-        print("✨ Notice the overlap? This preserves context!\n")
+        print(" Notice the overlap? This preserves context!\n")
     
     # Stats
     stats = chunker.get_chunk_stats(chunks_sentences)
@@ -433,20 +433,20 @@ if __name__ == "__main__":
     
     chunks_words = chunker.chunk_text(sample_text, method='words')
     
-    print(f"✅ Created {len(chunks_words)} chunks\n")
+    print(f" Created {len(chunks_words)} chunks\n")
     print(f"Chunk 0 (word-based):")
     print(f"   {chunks_words[0]['text'][:150]}...")
-    print("\n⚠️  Notice: Might cut off mid-sentence!")
+    print("\n  Notice: Might cut off mid-sentence!")
     
     print("\n" + "=" * 70)
-    print("CONGRATULATIONS! You've built a production-ready text chunker! 🎉")
+    print("CONGRATULATIONS! You've built a production-ready text chunker!")
     print("=" * 70)
-    print("\n📚 Key Takeaways:")
-    print("   ✓ Sentence-based chunking preserves semantic meaning")
-    print("   ✓ Overlap prevents context loss between chunks")
-    print("   ✓ This is a critical building block for RAG systems")
-    print("\n🚀 Next Steps:")
-    print("   → Experiment with different chunk_size values")
-    print("   → Try different overlap amounts")
-    print("   → Move on to Exercise 2: Vector Embeddings!")
+    print("\n Key Takeaways:")
+    print("    Sentence-based chunking preserves semantic meaning")
+    print("    Overlap prevents context loss between chunks")
+    print("    This is a critical building block for RAG systems")
+    print("\n Next Steps:")
+    print("    Experiment with different chunk_size values")
+    print("    Try different overlap amounts")
+    print("    Move on to Exercise 2: Vector Embeddings!")
     print()
